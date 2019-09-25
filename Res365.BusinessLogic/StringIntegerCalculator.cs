@@ -14,7 +14,11 @@ namespace Res365.BusinessLogic
         {
             _StringIntegerParser = new StringIntegerParser();
         }
-
+        /// <summary>
+        /// Calculator string values
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public int CalculatorString(string input)
         {
             int result = 0;
@@ -29,8 +33,7 @@ namespace Res365.BusinessLogic
             if (_StringIntegerParser.NegativeNumbers.Count > 0)
             {                
                 throw new Exception($"Negative numbers: {String.Join(", ", _StringIntegerParser.NegativeNumbers)}");
-            }
-            
+            }           
 
             return result;
         }

@@ -7,13 +7,11 @@ using System.Threading.Tasks;
 
 namespace Res365.BusinessLogic
 {
-    public class StringIntegerParser
+    public class StringIntegerParser : StringParser
     {
-        public List<int> Numbers;
-        public List<int> NegativeNumbers;
-        public List<int> IgnoredNumbers;
 
-        protected string HandleMultiLengthDelimiter(string input)
+
+        protected override string HandleMultiLengthDelimiter(string input)
         {
             string pattern = "\\[.+]";
 
@@ -47,7 +45,7 @@ namespace Res365.BusinessLogic
         /// Parse string to integer list
         /// </summary>
         /// <param name="input"></param>
-        public void ParseString(string input)
+        public override void ParseString(string input)
         {
             input=HandleMultiLengthDelimiter(input);
 
@@ -94,7 +92,7 @@ namespace Res365.BusinessLogic
         /// </summary>
         /// <param name="myNumber"></param>
         /// <param name="isNegative"></param>
-        private void ColloctNumbers(int myNumber, bool isNegative)
+        protected override void ColloctNumbers(int myNumber, bool isNegative)
         {
             if (isNegative)
             {
