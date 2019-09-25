@@ -1,16 +1,19 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Res365.Global;
+using Unity;
 
 namespace Res365.BusinessLogic.Test
 {
     [TestClass]
-    public class StringParserTest
+    public class StringParserTest: Res365TestBase
     {
-        protected StringIntegerParser _StringIntegerParser;
+        protected IStringIntegerParser _StringIntegerParser;
         [TestInitialize]
         public void InitilizeTest()
         {
-            _StringIntegerParser = new StringIntegerParser();
+            InitializeIoC();
+            _StringIntegerParser = Res365Container.Instance.Resolve<IStringIntegerParser>();
         }
         [TestMethod]
         public void StringIntegerParser_one_number_test()
@@ -32,11 +35,11 @@ namespace Res365.BusinessLogic.Test
 
             input = "1,1001";
             _StringIntegerParser.ParseString(input);
-            Assert.IsTrue(_StringIntegerParser.Numbers.Count == 1);
+            Assert.IsTrue(_StringIntegerParser.Numbers.Count == 2);
 
             input = "0; 5,tytyt";
             _StringIntegerParser.ParseString(input);
-            Assert.IsTrue(_StringIntegerParser.Numbers.Count == 2);
+            Assert.IsTrue(_StringIntegerParser.Numbers.Count == 3);
 
             input = "//;\n2;5";
             _StringIntegerParser.ParseString(input);

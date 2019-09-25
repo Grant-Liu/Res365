@@ -1,5 +1,5 @@
 ﻿using CommonServiceLocator;
-using Res365.BusinessLogic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Res365.Global;
 using System;
 using System.Collections.Generic;
@@ -9,22 +9,16 @@ using System.Threading.Tasks;
 using Unity;
 using Unity.ServiceLocation;
 
-namespace Res365
+namespace Res365.BusinessLogic.Test
 {
-    class Program
+    [TestClass]
+    public class Res365TestBase
     {
-        protected IStringIntegerCalculator _IStringIntegerCalculator;        
-
-        static void Main(string[] args)
-        {
-            InitializeIoC();
-        }
-
         public static void InitializeIoC()
         {
             try
             {
-                IUnityContainer Container = Res365Container.Instance;                
+                IUnityContainer Container = Res365Container.Instance;
                 UnityServiceLocator locator = new UnityServiceLocator(Container);
                 ServiceLocator.SetLocatorProvider(() => locator);
                 Container.AddNewExtension<Res365BusinessLogicExtension>();

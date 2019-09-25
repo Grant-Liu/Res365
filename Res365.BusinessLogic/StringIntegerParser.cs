@@ -9,7 +9,16 @@ namespace Res365.BusinessLogic
 {
     public class StringIntegerParser : StringParser,IStringIntegerParser
     {
+        public override List<int> Numbers { get; set; }
+        public override List<int> NegativeNumbers { get; set; }
+        public override List<int> IgnoredNumbers { get; set; }
+        public override bool AllowNegative { get; set; }
+        public override int UpBound { get; set; }
 
+        public StringIntegerParser()
+        {
+            UpBound = 1000;
+        }
 
         protected override string HandleMultiLengthDelimiter(string input)
         {
@@ -51,11 +60,12 @@ namespace Res365.BusinessLogic
 
             Numbers = new List<int>();
             NegativeNumbers = new List<int>();
-            IgnoredNumbers = new List<int>();
+            IgnoredNumbers = new List<int>();            
 
             int myNumber = 0;
             int position = 0;
             bool isNegative = false;
+            int indexDelimiter = 0;
 
             if (input.Length > 0)
             {
@@ -70,15 +80,24 @@ namespace Res365.BusinessLogic
                         myNumber = myNumber * ((int)Math.Pow(10, position > 0 ? 1 : 0)) + int.Parse(input[i].ToString());
                         position++;
                     }
-                    else if (position > 0)
+                    else
                     {
-                        //not a number,it must be delimited string
-                        ColloctNumbers(myNumber, isNegative);
+                        indexDelimiter++;
+                        if (Numbers.Count > 0 && Numbers[Numbers.Count - 1] != 0 && indexDelimiter==2)
+                        {
+                            Numbers.Add(0);
+                        }
+                        if (position > 0)
+                        {
+                            //not a number,it must be delimited string
+                            ColloctNumbers(myNumber, isNegative);
 
-                        myNumber = 0;
-                        position = 0;
-                        isNegative = false;
-                    }
+                            myNumber = 0;
+                            position = 0;
+                            isNegative = false;
+                            indexDelimiter = 0;
+                        }
+                    }                    
                 }
                 //handle the last one
                 if (position > 0)
@@ -97,14 +116,20 @@ namespace Res365.BusinessLogic
             if (isNegative)
             {
                 NegativeNumbers.Add(myNumber * -1);
+
+                if (AllowNegative)
+                {
+                    Numbers.Add(myNumber * -1);
+                }
             }
-            else if (myNumber <= 1000)
+            else if (myNumber <= UpBound)
             {
                 Numbers.Add(myNumber);
             }
             else
             {
-                IgnoredNumbers.Add(myNumber);
+                Numbers.Add(0);
+                IgnoredNumbers.Add(0);
             }
         }
     }

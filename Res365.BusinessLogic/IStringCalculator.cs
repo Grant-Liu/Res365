@@ -8,6 +8,10 @@ namespace Res365.BusinessLogic
 {
     public interface IStringCalculator
     {
-        int CalculatorString(string input);
+        string Formular { get; set; }
+        int CalculatorString(string input, int upBound = 1000,bool allowNegative = false);
+        int CalculatorSubtraction(string input, int upBound= 1000, bool allowNegative = false);
+        int CalculatorMultiplication(string input, int upBound= 1000, bool allowNegative = false);
+        int CalculatorDivision(string input, int upBound= 1000, bool allowNegative = false);
     }
 }

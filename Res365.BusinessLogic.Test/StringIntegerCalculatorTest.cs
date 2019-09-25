@@ -1,17 +1,55 @@
 ﻿using System;
+using CommonServiceLocator;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Res365.Global;
+using Unity;
+using Unity.ServiceLocation;
 
 namespace Res365.BusinessLogic.Test
 {
     [TestClass]
-    public class StringIntegerCalculatorTest
+    public class StringIntegerCalculatorTest: Res365TestBase
     {
-        protected StringIntegerCalculator _StringIntegerCalculator;
+        protected IStringIntegerCalculator _StringIntegerCalculator;
         [TestInitialize]
         public void InitilizeTest()
         {
-            _StringIntegerCalculator = new StringIntegerCalculator();
+            InitializeIoC();
+            _StringIntegerCalculator = Res365Container.Instance.Resolve <IStringIntegerCalculator> ();
+        }       
+
+        [TestMethod]
+        public void Fomular_Test()
+        {
+            string input = "2,4,rrrr,1001,6";
+            string result = "2+4+0+0+6 = 12";
+            _StringIntegerCalculator.CalculatorString(input);            
+            Assert.IsTrue(_StringIntegerCalculator.Formular == result);
         }
+
+        [TestMethod]
+        public void Two_number_sub_test()
+        {
+            string input = "20,10";
+            int result = _StringIntegerCalculator.CalculatorSubtraction(input);
+            Assert.IsTrue(result == 10);
+        }
+        [TestMethod]
+        public void Two_number_Multiply_test()
+        {
+            string input = "2,10";
+            int result = _StringIntegerCalculator.CalculatorMultiplication(input);
+            Assert.IsTrue(result == 20);
+        }
+
+        [TestMethod]
+        public void Two_number_Divided_test()
+        {
+            string input = "10,2";
+            int result = _StringIntegerCalculator.CalculatorDivision(input);
+            Assert.IsTrue(result == 5);
+        }
+
         [TestMethod]
         public void One_number_test()
         {
@@ -54,7 +92,20 @@ namespace Res365.BusinessLogic.Test
             result = _StringIntegerCalculator.CalculatorString(input);
             Assert.IsTrue(result == 6);
         }
-
+        [TestMethod]
+        public void Multi_number_allow_negative_test()
+        {
+            string input = "2,-2,6";
+            int result = _StringIntegerCalculator.CalculatorString(input, upBound: 2000,allowNegative:true);
+            Assert.IsTrue(result == 6);
+        }
+        [TestMethod]
+        public void Multi_number_2000_test()
+        {
+            string input = "2,1001,6";
+            int result = _StringIntegerCalculator.CalculatorString(input,upBound:2000);
+            Assert.IsTrue(result == 1009);
+        }
         [TestMethod]
         public void Multi_number_1000_test()
         {
