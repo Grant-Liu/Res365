@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Res365.BusinessLogic
 {
-    public class StringIntegerParser : StringParser
+    public class StringIntegerParser : StringParser,IStringIntegerParser
     {
 
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Res365.BusinessLogic
 {
-    public class StringIntegerCalculator
+    public class StringIntegerCalculator: StringCalculator, IStringIntegerCalculator
     {
         protected StringIntegerParser _StringIntegerParser;
 
@@ -19,7 +19,7 @@ namespace Res365.BusinessLogic
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public int CalculatorString(string input)
+        public override int CalculatorString(string input)
         {
             int result = 0;
 
