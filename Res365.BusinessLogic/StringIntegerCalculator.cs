@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Res365.BusinessLogic
 {
-    public class StringIntegerCalculator: StringCalculator, IStringIntegerCalculator
+    public class StringIntegerCalculator : StringCalculator, IStringIntegerCalculator
     {
         protected IStringIntegerParser _StringIntegerParser;
         public override string Formular { get; set; }
@@ -16,7 +16,7 @@ namespace Res365.BusinessLogic
             _StringIntegerParser = stringIntegerParser;
         }
 
-        public override int CalculatorSubtraction(string input, int upBound= 1000, bool allowNegative = false)
+        public override int CalculatorSubtraction(string input, int upBound = 1000, bool allowNegative = false)
         {
             int result = 0;
             _StringIntegerParser.UpBound = upBound;
@@ -55,7 +55,7 @@ namespace Res365.BusinessLogic
 
             return result;
         }
-        public override int CalculatorMultiplication(string input, int upBound= 1000, bool allowNegative = false)
+        public override int CalculatorMultiplication(string input, int upBound = 1000, bool allowNegative = false)
         {
             int result = 1;
             _StringIntegerParser.UpBound = upBound;
@@ -87,7 +87,7 @@ namespace Res365.BusinessLogic
 
             return result;
         }
-        public override int CalculatorDivision(string input, int upBound= 1000, bool allowNegative = false)
+        public override int CalculatorDivision(string input, int upBound = 1000, bool allowNegative = false)
         {
             int result = 0;
             _StringIntegerParser.UpBound = upBound;
@@ -108,7 +108,7 @@ namespace Res365.BusinessLogic
                 else
                 {
                     result /= number;
-                }                
+                }
 
                 if (string.IsNullOrWhiteSpace(sb.ToString()))
                 {
@@ -134,7 +134,7 @@ namespace Res365.BusinessLogic
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public override int CalculatorString(string input,int upBound=1000,bool allowNegative=false)
+        public override int CalculatorString(string input, int upBound = 1000, bool allowNegative = false)
         {
             int result = 0;
             _StringIntegerParser.UpBound = upBound;
@@ -153,16 +153,19 @@ namespace Res365.BusinessLogic
                 }
                 else
                 {
-                    sb.Append($"+{number}");
+                    if (number >= 0)
+                        sb.Append($"+{number}");
+                    else
+                        sb.Append($"{number}");
                 }
             }
             sb.Append($" = {result}");
             Formular = sb.ToString();
 
             if (_StringIntegerParser.NegativeNumbers.Count > 0 && !allowNegative)
-            {                
+            {
                 throw new Exception($"Negative numbers: {String.Join(", ", _StringIntegerParser.NegativeNumbers)}");
-            }           
+            }
 
             return result;
         }

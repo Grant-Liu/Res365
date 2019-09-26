@@ -22,6 +22,9 @@ namespace Res365.BusinessLogic
 
         protected override string HandleMultiLengthDelimiter(string input)
         {
+            if (string.IsNullOrWhiteSpace(input))
+                return string.Empty;
+
             string pattern = "\\[.+]";
 
             Regex r1 = new Regex(pattern);
